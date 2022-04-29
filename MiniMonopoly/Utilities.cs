@@ -19,5 +19,9 @@ namespace MiniMonopoly
                 }
             } while(true);
         }
+        public static Random RNG = new Random();
+        public static void SlowPrint(int milliseconds) {
+            System.Threading.Thread.Sleep(milliseconds);
+        }
     }
 }

@@ -46,5 +46,11 @@ namespace MiniMonopoly
         public void Act (List<Square> squares) {
 
         }
+        public byte RollDice() {
+            byte dice_1 = (byte)Utilities.RNG.Next(1,6+1);
+            byte dice_2 = (byte)Utilities.RNG.Next(1,6+1);
+
+            return (byte)(dice_1+dice_2);
+        }
     }
 }
