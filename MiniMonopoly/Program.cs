@@ -14,7 +14,6 @@ namespace MiniMonopoly
             game.GameStart();
 
             // TEST StreetSquare by color
-            Console.WriteLine(StreetSquare.StreetsquaresByColor.Count);
             foreach(var item in StreetSquare.StreetsquaresByColor) {
                 Console.WriteLine($"{item.Key}:");
                 foreach(var street in item.Value) {

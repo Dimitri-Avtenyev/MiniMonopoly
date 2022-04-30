@@ -55,15 +55,15 @@ namespace MiniMonopoly
             } else {
                 streetsquaresByColor[color].Add(this);
             }
-           
-            
+
         }
         
         public override void ReactToVisit(Player player) {
-            
+            // if not owned -> buy property else -> owned by other player? -> pay rent
+            // print where you arrived + colors
         }
         public override void ReactToTraversal(Player player) {
-            throw new NotImplementedException();
+            //Passing by streets -> do nothing
         }
     }
 }

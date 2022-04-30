@@ -44,7 +44,13 @@ namespace MiniMonopoly
             this.Position = 0;
         }
         public void Act (List<Square> squares) {
+            byte diceRoll = 0;
+            diceRoll = this.RollDice();
 
+            Console.WriteLine($"{this.Name} rolled {diceRoll}!");
+            this.Position = (this.Position + (int)diceRoll)%(squares.Count); //position within squares limit
+            squares[this.Position].ReactToTraversal(this);
+            squares[this.Position].ReactToVisit(this);
         }
         public byte RollDice() {
             byte dice_1 = (byte)Utilities.RNG.Next(1,6+1);

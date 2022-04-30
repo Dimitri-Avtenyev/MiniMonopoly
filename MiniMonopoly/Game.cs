@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 
+
 namespace MiniMonopoly
 {
     class Game
@@ -19,26 +20,26 @@ namespace MiniMonopoly
             "Meir", "Nieuwstraat"};
         // build a board -> colors and rent
         public void BuildBoard() {
-            List<StreetSquare> test = new List<StreetSquare>();
+            
             int colorNumber = 0;
             int rent = 100;
             for(int i = 0; i<streetnames.Length; i++) {
             StreetSquare streetSquare = new StreetSquare(streetnames[i], rent, (ConsoleColor)colorNumber);
-            test.Add(streetSquare);
                 // first and last two squares same color, in between every 3 squares 
                 if( ((i%3 == 1)) || (i == 1 || i == streetnames.Length-3)) { 
                     colorNumber++;
                     rent+=10;
                 }
             }
-            // StartSquare startSquare = new StartSquare("GO");
-            // board.Add(startSquare);
-            // board.AddRange(StreetSquare.Streetsquares);
+            StartSquare startSquare = new StartSquare("GO");
+            board.Add(startSquare);
+            board.AddRange(StreetSquare.Streetsquares);
         }
         public void GameStart() {
             Console.WriteLine("Welcome to mini-Monopoly!\nPlease add players (2-8)");
             // Build players
             List<Player> players = new List<Player>();
+
             do {
                 Console.WriteLine($"Name player {players.Count+1}?");
                 string playerInput = Console.ReadLine();
@@ -51,12 +52,42 @@ namespace MiniMonopoly
             }
             // Decide who starts
             Console.WriteLine("Who goes first? Let the dice decide!");
-            Dictionary<Player, byte> diceRolls = new Dictionary<Player, byte>();
+            Dictionary<Player, byte> playerDiceRolls = new Dictionary<Player, byte>();
+            byte diceRoll = 0;
+            byte diceRollMax = 0;
+
             foreach(var player in players) {
-                
-                Console.WriteLine($"{player.Name} rolled {player.RollDice()}!");
+                Console.WriteLine($"{player.Name} rolling dice");
+                Console.Write("rolling dice");
+                Utilities.SlowPrint(500);
+                Console.Write(".");
+                Utilities.SlowPrint(500);
+                Console.Write(".");
+                Utilities.SlowPrint(500);
+                Console.Write(".\n");
+
+                // Start dicerolls
+                diceRoll = player.RollDice();
+                if(diceRoll > diceRollMax) {
+                    diceRollMax = diceRoll;
+                }
+                playerDiceRolls.Add(player, diceRoll);
+
+                Console.WriteLine($"\t{player.Name} rolled {diceRoll}!");
             }
-            
+            // Announce winner
+            byte doubleRolls = 0;
+            foreach(var playerRoll in playerDiceRolls) {
+                if(playerRoll.Value == diceRollMax) {
+                    doubleRolls++;
+                    Console.WriteLine($"Highest roll is {diceRollMax} by {playerRoll.Key.Name}!");
+                } 
+            }
+            if(doubleRolls>1) {
+                    Console.WriteLine("Double rolls, please roll again"); //implement 
+            }
+            // Highest roller starts
+            players[0].Act(board);
         }
             
     }
