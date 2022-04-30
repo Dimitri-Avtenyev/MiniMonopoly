@@ -1,12 +1,41 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 
 namespace MiniMonopoly
 {
     class Game
     {
-        public static List<Square> board = new List<Square>();
+        private List<Square> board = new List<Square>();
+        public ImmutableList<Square> Board {
+            get {
+                return board.ToImmutableList();
+            }
+        }
+        private List<Player> players = new List<Player>();
+        public ImmutableList<Player> Players {
+            get {
+                return players.ToImmutableList();
+            }
+        }
+        private byte diceRoll = 0;
+        private byte DiceRoll {
+            get {
+                return this.diceRoll;
+            } set {
+                this.diceRoll = value;
+            }
+        }
+        private byte diceRollMax = 0;
+        private byte DiceRollMax {
+            get {
+                return this.diceRollMax;
+            } set {
+                this.diceRollMax = value;
+            }
+        }
+        private int indexOfWinner = 0;
         
         // setup streetnames
         private static string[] streetnames = { 
@@ -38,7 +67,7 @@ namespace MiniMonopoly
         public void GameStart() {
             Console.WriteLine("Welcome to mini-Monopoly!\nPlease add players (2-8)");
             // Build players
-            List<Player> players = new List<Player>();
+            
 
             do {
                 Console.WriteLine($"Name player {players.Count+1}?");
@@ -51,11 +80,27 @@ namespace MiniMonopoly
                 Console.WriteLine(player.Name);
             }
             // Decide who starts
+            WhoGoesFirst();
+
+            // Start playing!
+            bool quitGame = false;
+            string userInput  = "";
+            do {
+                Console.WriteLine("Hit 'enter' to roll your dice! (to quit type 'quit').");
+                userInput = Console.ReadLine();
+                if(userInput.ToLower() == "quit") {
+                    quitGame = true;
+                } else if(userInput == ""){
+                    foreach(var player in players) {
+                        player.Act(board);
+                    }
+                }
+            } while(!quitGame);
+        }
+        private void WhoGoesFirst() {
             Console.WriteLine("Who goes first? Let the dice decide!");
             Dictionary<Player, byte> playerDiceRolls = new Dictionary<Player, byte>();
-            byte diceRoll = 0;
-            byte diceRollMax = 0;
-
+    
             foreach(var player in players) {
                 Console.WriteLine($"{player.Name} rolling dice");
                 Console.Write("rolling dice");
@@ -67,28 +112,27 @@ namespace MiniMonopoly
                 Console.Write(".\n");
 
                 // Start dicerolls
-                diceRoll = player.RollDice();
-                if(diceRoll > diceRollMax) {
-                    diceRollMax = diceRoll;
+                DiceRoll = player.RollDice();
+                if(DiceRoll > DiceRollMax) {
+                    DiceRollMax = DiceRoll;
                 }
-                playerDiceRolls.Add(player, diceRoll);
+                playerDiceRolls.Add(player, DiceRoll);
 
-                Console.WriteLine($"\t{player.Name} rolled {diceRoll}!");
+                Console.WriteLine($"\t{player.Name} rolled {DiceRoll}!");
             }
             // Announce winner
             byte doubleRolls = 0;
             foreach(var playerRoll in playerDiceRolls) {
-                if(playerRoll.Value == diceRollMax) {
+                if(playerRoll.Value == DiceRollMax) {
+                    Console.WriteLine($"Highest roll is {DiceRollMax} by {playerRoll.Key.Name}!");
                     doubleRolls++;
-                    Console.WriteLine($"Highest roll is {diceRollMax} by {playerRoll.Key.Name}!");
+                    indexOfWinner = players.IndexOf(playerRoll.Key);
+                    //Highest roller starts -> sort list
                 } 
             }
             if(doubleRolls>1) {
-                    Console.WriteLine("Double rolls, please roll again"); //implement 
+                Console.WriteLine("Double rolls, please roll again"); //implement 
             }
-            // Highest roller starts
-            players[0].Act(board);
-        }
-            
+        }            
     }
 }

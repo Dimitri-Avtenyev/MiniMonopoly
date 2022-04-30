@@ -10,9 +10,9 @@ namespace MiniMonopoly
         {
             
             Game game = new Game();
-            game.BuildBoard(); //streets skipped? -> check
+            game.BuildBoard(); 
             game.GameStart();
-
+            
             // TEST StreetSquare by color
             foreach(var item in StreetSquare.StreetsquaresByColor) {
                 Console.WriteLine($"{item.Key}:");
