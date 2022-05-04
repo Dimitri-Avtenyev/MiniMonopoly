@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace MiniMonopoly 
 {
@@ -22,6 +23,15 @@ namespace MiniMonopoly
         public static Random RNG = new Random();
         public static void SlowPrint(int milliseconds) {
             System.Threading.Thread.Sleep(milliseconds);
+        }
+        public static void InsertRandomPlace(List<Square> board, LotterySquare card) {
+            for(byte i = 0; i < 3; i++) {
+                int insertIndex = Utilities.RNG.Next(1,board.Count); // 0 is for "GO" square
+                board.Insert(insertIndex, card);
+            }
+        }
+        public static void ShuffleCards() {
+
         }
     }
 }

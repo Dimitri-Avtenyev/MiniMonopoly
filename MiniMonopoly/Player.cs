@@ -44,26 +44,24 @@ namespace MiniMonopoly
             this.Position = 0;
         }
         public void Act (List<Square> squares) {
-            byte diceRoll = 0;
-            diceRoll = this.RollDice();
+            byte diceRoll = this.RollDice();
             int beginPosition = this.Position;
-            int endPosition = (this.Position + diceRoll)%(squares.Count);//position within suares limit
+            int endPosition = 0;// (this.Position + diceRoll)%(squares.Count);//position within suares limit
 
             Console.WriteLine($"{this.Name} rolled {diceRoll}!");
-            for(int i = beginPosition+1; i<=endPosition; i++) { //react to every NEXT step on square -> i+1
-
-                squares[i].ReactToTraversal(this);
+           
+            for(byte i = 1; i<= diceRoll; i++) { //react to every NEXT step on square -> start i = 1 
+                endPosition = (beginPosition + i)%squares.Count;
+                squares[endPosition].ReactToTraversal(this);
             }
-            
             this.Position = endPosition;
-
             squares[this.Position].ReactToVisit(this);
         }
         public byte RollDice() {
-            byte dice_1 = (byte)Utilities.RNG.Next(1,6+1);
-            byte dice_2 = (byte)Utilities.RNG.Next(1,6+1);
+            byte dice1 = (byte)Utilities.RNG.Next(1,6+1);
+            byte dice2 = (byte)Utilities.RNG.Next(1,6+1);
 
-            return (byte)(dice_1+dice_2);
+            return (byte)(dice1+dice2);
         }
     }
 }

@@ -1,17 +1,41 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace MiniMonopoly
 {
+
     class LotterySquare : Square
     {
-        public LotterySquare(string name):base(name) {
-            
+        public enum CardTypes {
+            ChanceCard,
+            CommunityCard
+        }
+        private List<string> chanceCards = new List<string>(){
+            ""
+        };
+        private CardTypes cardType;
+        public CardTypes CardType {
+            get {
+                return cardType;
+            }
+        }
+        private List<string> communityCards = new List<string>();
+        private static List<LotterySquare> lotterysquares = new List<LotterySquare>();
+        public static ImmutableList<LotterySquare> LotterySquares {
+            get {
+                return lotterysquares.ToImmutableList();
+            }
+        }
+        public LotterySquare(string name, CardTypes cardType):base(name) {
+           this.cardType = cardType;
         }
         public override void ReactToVisit(Player player) {
-            throw new NotImplementedException();
+            Console.WriteLine($"you landed on {this.Name}"); // placeholder for debug
+            //switch -> effect of card no.X
         }
         public override void ReactToTraversal(Player player) {
-            throw new NotImplementedException();
+            // Nothing happens when going OVER this square
         }
     }
 }

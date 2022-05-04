@@ -23,10 +23,6 @@ namespace MiniMonopoly
                 Console.ResetColor();
                 Console.WriteLine("---");
             }
-            // foreach(var item in Game.board) {
-            //     Console.WriteLine(item.Name);
-            // }
-
         }
     }
 }

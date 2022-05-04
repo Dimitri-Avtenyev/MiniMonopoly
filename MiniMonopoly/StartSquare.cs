@@ -12,7 +12,9 @@ namespace MiniMonopoly
         }
         public override void ReactToTraversal(Player player) {
             player.Money += 2000;
-            Console.WriteLine($"{player.Name} went by 'GO', received €2000 and has now €{player.Money}");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"\t>>> {player.Name} went by 'GO', received €2000 and has now €{player.Money}.<<<");
+            Console.ResetColor();
         }
     }
 }

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
-
 namespace MiniMonopoly
 {
     class Game
@@ -61,14 +60,22 @@ namespace MiniMonopoly
                 }
             }
             StartSquare startSquare = new StartSquare("GO");
-            board.Add(startSquare);
+            LotterySquare chanceCard = new LotterySquare("Chance Card", LotterySquare.CardTypes.ChanceCard);
+            LotterySquare communityCard = new LotterySquare("Community Card", LotterySquare.CardTypes.CommunityCard);
             board.AddRange(StreetSquare.Streetsquares);
+            board.Insert(0, startSquare);
+            // Insert LotterySquares at random places
+            Utilities.InsertRandomPlace(board, chanceCard);
+            Utilities.InsertRandomPlace(board, communityCard);
+
+            foreach(var item in Board) {
+            Console.WriteLine(item.Name);
+            }
+
         }
         public void GameStart() {
             Console.WriteLine("Welcome to mini-Monopoly!\nPlease add players (2-8)");
             // Build players
-            
-
             do {
                 Console.WriteLine($"Name player {players.Count+1}?");
                 string playerInput = Console.ReadLine();
@@ -81,17 +88,22 @@ namespace MiniMonopoly
             }
             // Decide who starts
             WhoGoesFirst();
-
             // Start playing!
+            StartPlaying();
+        }
+    
+        private void StartPlaying() {
             bool quitGame = false;
             string userInput  = "";
             do {
-                Console.WriteLine("Hit 'enter' to roll your dice! (to quit type 'quit').");
-                userInput = Console.ReadLine();
-                if(userInput.ToLower() == "quit") {
-                    quitGame = true;
-                } else if(userInput == ""){
-                    foreach(var player in players) {
+                foreach(var player in players) {
+
+                    Console.WriteLine("Hit 'enter' to roll your dice! (to quit type 'quit').");
+                    userInput = Console.ReadLine();
+                    if(userInput.ToLower() == "quit") {
+                        quitGame = true;
+                        break; //To get out of the foreach without iterating over all players 
+                    } else if(userInput == ""){
                         player.Act(board);
                     }
                 }
@@ -133,6 +145,6 @@ namespace MiniMonopoly
             if(doubleRolls>1) {
                 Console.WriteLine("Double rolls, please roll again"); //implement 
             }
-        }            
+        }           
     }
 }

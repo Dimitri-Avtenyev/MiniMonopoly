@@ -18,6 +18,14 @@ namespace MiniMonopoly
                 }
             }
         }
+        private bool forSale = true;
+        public bool ForSale {
+            get {
+                return this.forSale;
+            } set {
+                forSale = value;
+            }
+        }
         private ConsoleColor color;
         public ConsoleColor Color {
             get {
@@ -55,12 +63,15 @@ namespace MiniMonopoly
             } else {
                 streetsquaresByColor[color].Add(this);
             }
-
         }
         
         public override void ReactToVisit(Player player) {
             // if not owned -> buy property else -> owned by other player? -> pay rent
             // print where you arrived + colors
+            Console.ForegroundColor = this.Color;
+            Console.WriteLine($"You have arrived at {this.Name}");
+            Console.ResetColor();
+
         }
         public override void ReactToTraversal(Player player) {
             //Passing by streets -> do nothing
