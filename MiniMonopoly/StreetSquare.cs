@@ -5,7 +5,7 @@ using System.Collections.Immutable;
 namespace MiniMonopoly
 {
     class StreetSquare : Square
-    {
+    {   //should implement cost of street -> different from rent
         private int rent;
         public int Rent {
             get {
@@ -18,12 +18,20 @@ namespace MiniMonopoly
                 }
             }
         }
-        private bool forSale = true;
-        public bool ForSale {
+        private bool owned = false;
+        public bool Owned {
             get {
-                return this.forSale;
+                return this.owned;
             } set {
-                forSale = value;
+                owned = value;
+            }
+        }
+        private Player owner;
+        public Player Owner {
+            get {
+                return this.owner;
+            } set {
+                owner = value;
             }
         }
         private ConsoleColor color;
@@ -66,10 +74,36 @@ namespace MiniMonopoly
         }
         
         public override void ReactToVisit(Player player) {
-            // if not owned -> buy property else -> owned by other player? -> pay rent
+            // if not owned -> buy street else -> owned by other player? -> pay rent
             // print where you arrived + colors
             Console.ForegroundColor = this.Color;
-            Console.WriteLine($"You have arrived at {this.Name}");
+            Console.WriteLine($"You({player}: €{player.Money}) have arrived at {this.Name}");
+            if(!this.Owned) {
+                Console.WriteLine($"{this.Name} is not owned, want to buy this street for €{this.Rent}?");
+                string userInput = Console.ReadLine();
+                if(userInput.ToLower() == "yes" && player.Money >= this.Rent) {
+                    player.OwnedProperties.Add(this);
+                    this.Owned = true;
+                    this.Owner = player;
+                    player.Money -= this.Rent;
+
+                } else {
+                    Console.WriteLine($"You have €{player.Money} left but this street costs €{this.Rent} to buy");
+                }
+            } else if((this.Owned && player.Equals(this.Owner))){
+                Console.WriteLine("You are the owner of this street");
+            } else {
+                Console.WriteLine($"{this.Name} is owned by {this.Owner}, you must pay them €{this.Rent}!");
+                int transactionAmount = this.Rent;
+                player.Money -= transactionAmount;
+                this.Owner.Money += transactionAmount;
+                Console.WriteLine($"You({player.Name}) paid rent to {this.Owner.Name} and now have €{player.Money}");
+            }
+            //test ownership streets
+            foreach(var property in player.OwnedProperties) {
+                Console.WriteLine(player.OwnedProperties.Count);
+                    Console.WriteLine(property.Name);
+            }
             Console.ResetColor();
 
         }

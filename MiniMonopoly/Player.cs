@@ -26,7 +26,7 @@ namespace MiniMonopoly
                 return this.money;
             } set {
                 if(value < 0) {
-                    Console.WriteLine("Money cannot be set negative.");
+                    Console.WriteLine("You are bankrupt :(");
                 } else {
                     this.money = value;
                 }
@@ -63,5 +63,9 @@ namespace MiniMonopoly
 
             return (byte)(dice1+dice2);
         }
+        public override string ToString() {
+            return $"{this.Name}";
+        }
     }
+   
 }

@@ -11,7 +11,10 @@ namespace MiniMonopoly
             ChanceCard,
             CommunityCard
         }
-        private List<string> chanceCards = new List<string>(){
+        private List<string> chanceCardEffects = new List<string>(){
+            ""
+        };
+        private List<string> communityCardEffects = new List<string>() {
             ""
         };
         private CardTypes cardType;
@@ -20,7 +23,7 @@ namespace MiniMonopoly
                 return cardType;
             }
         }
-        private List<string> communityCards = new List<string>();
+        
         private static List<LotterySquare> lotterysquares = new List<LotterySquare>();
         public static ImmutableList<LotterySquare> LotterySquares {
             get {

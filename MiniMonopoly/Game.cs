@@ -9,13 +9,13 @@ namespace MiniMonopoly
         private List<Square> board = new List<Square>();
         public ImmutableList<Square> Board {
             get {
-                return board.ToImmutableList();
+                return board.ToImmutableList<Square>();
             }
         }
         private List<Player> players = new List<Player>();
         public ImmutableList<Player> Players {
             get {
-                return players.ToImmutableList();
+                return players.ToImmutableList<Player>();
             }
         }
         private byte diceRoll = 0;
@@ -68,6 +68,7 @@ namespace MiniMonopoly
             Utilities.InsertRandomPlace(board, chanceCard);
             Utilities.InsertRandomPlace(board, communityCard);
 
+            //print whole board for test
             foreach(var item in Board) {
             Console.WriteLine(item.Name);
             }
