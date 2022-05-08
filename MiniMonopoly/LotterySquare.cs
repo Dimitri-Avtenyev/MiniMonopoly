@@ -42,7 +42,7 @@ namespace MiniMonopoly
             Utilities.SlowPrintDots();
             int randomIndex = 0;
             if(this.CardType == CardTypes.ChanceCard) {
-                randomIndex =  Utilities.RNG.Next(0,chanceCardEffects.Count+1);
+                randomIndex =  Utilities.RNG.Next(0,chanceCardEffects.Count);
                 Console.WriteLine(chanceCardEffects[randomIndex]);
                 switch(randomIndex) {
                     case(0): 

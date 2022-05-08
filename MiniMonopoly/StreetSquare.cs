@@ -80,7 +80,7 @@ namespace MiniMonopoly
                 Console.WriteLine($"{this.Name} is not owned, want to buy this street for €{this.Rent}?");
                 string userInput = Console.ReadLine();
                 if(userInput.ToLower() == "yes" && player.Money >= this.Rent) {
-                    player.OwnedProperties.Add(this);
+                    player.BuyStreet(this);
                     this.Owned = true;
                     this.Owner = player;
                     player.Money -= this.Rent;
@@ -88,8 +88,14 @@ namespace MiniMonopoly
                 } else {
                     Console.WriteLine($"You have €{player.Money} left but this street costs €{this.Rent} to buy");
                 }
-            } else if((this.Owned && player.Equals(this.Owner))){
+            } else if((this.Owned && player.Equals(this.Owner))){ //build houses
                 Console.WriteLine("You are the owner of this street");
+                // foreach(var street in player.OwnedProperties) {
+                //     if(street.Color == this.Color) {
+                        
+                //     }
+                // }
+
             } else {
                 Console.WriteLine($"{this.Name} is owned by {this.Owner}, you must pay that player €{this.Rent}!");
                 int transactionAmount = this.Rent;

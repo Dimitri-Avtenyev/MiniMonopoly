@@ -66,6 +66,9 @@ namespace MiniMonopoly
         public override string ToString() {
             return $"{this.Name}";
         }
+        public void BuyStreet(StreetSquare street) {
+            ownedProperties.Add(street);
+        }
     }
    
 }
