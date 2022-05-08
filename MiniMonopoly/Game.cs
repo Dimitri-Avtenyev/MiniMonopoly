@@ -69,9 +69,9 @@ namespace MiniMonopoly
             Utilities.InsertRandomPlace(board, communityCard);
 
             //print whole board for test
-            foreach(var item in Board) {
-            Console.WriteLine(item.Name);
-            }
+            // foreach(var item in Board) {
+            // Console.WriteLine(item.Name);
+            // }
 
         }
         public void GameStart() {
@@ -117,12 +117,7 @@ namespace MiniMonopoly
             foreach(var player in players) {
                 Console.WriteLine($"{player.Name} rolling dice");
                 Console.Write("rolling dice");
-                Utilities.SlowPrint(500);
-                Console.Write(".");
-                Utilities.SlowPrint(500);
-                Console.Write(".");
-                Utilities.SlowPrint(500);
-                Console.Write(".\n");
+                Utilities.SlowPrintDots();
 
                 // Start dicerolls
                 DiceRoll = player.RollDice();
@@ -144,7 +139,7 @@ namespace MiniMonopoly
                 } 
             }
             if(doubleRolls>1) {
-                Console.WriteLine("Double rolls, please roll again"); //implement 
+                Console.WriteLine("Double rolls, rerolling...!"); //implement 
             }
         }           
     }

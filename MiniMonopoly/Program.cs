@@ -14,15 +14,15 @@ namespace MiniMonopoly
             game.GameStart();
             
             // TEST StreetSquare by color
-            foreach(var item in StreetSquare.StreetsquaresByColor) {
-                Console.WriteLine($"{item.Key}:");
-                foreach(var street in item.Value) {
-                    Console.ForegroundColor = street.Color;
-                    Console.WriteLine(street.Name);
-                }
-                Console.ResetColor();
-                Console.WriteLine("---");
-            }
+            // foreach(var item in StreetSquare.StreetsquaresByColor) {
+            //     Console.WriteLine($"{item.Key}:");
+            //     foreach(var street in item.Value) {
+            //         Console.ForegroundColor = street.Color;
+            //         Console.WriteLine(street.Name);
+            //     }
+            //     Console.ResetColor();
+            //     Console.WriteLine("---");
+            // }
         }
     }
 }

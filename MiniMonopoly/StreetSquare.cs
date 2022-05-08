@@ -93,7 +93,7 @@ namespace MiniMonopoly
             } else if((this.Owned && player.Equals(this.Owner))){
                 Console.WriteLine("You are the owner of this street");
             } else {
-                Console.WriteLine($"{this.Name} is owned by {this.Owner}, you must pay them €{this.Rent}!");
+                Console.WriteLine($"{this.Name} is owned by {this.Owner}, you must pay that player €{this.Rent}!");
                 int transactionAmount = this.Rent;
                 player.Money -= transactionAmount;
                 this.Owner.Money += transactionAmount;

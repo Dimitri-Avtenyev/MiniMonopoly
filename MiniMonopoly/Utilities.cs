@@ -21,8 +21,12 @@ namespace MiniMonopoly
             } while(true);
         }
         public static Random RNG = new Random();
-        public static void SlowPrint(int milliseconds) {
-            System.Threading.Thread.Sleep(milliseconds);
+        public static void SlowPrintDots() {
+            for(byte i=0; i<3;i++) {
+                System.Threading.Thread.Sleep(500);
+                Console.Write(".");
+            }
+            Console.Write("\n");
         }
         public static void InsertRandomPlace(List<Square> board, LotterySquare card) {
             for(byte i = 0; i < 3; i++) {
