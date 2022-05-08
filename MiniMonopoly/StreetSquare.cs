@@ -74,8 +74,6 @@ namespace MiniMonopoly
         }
         
         public override void ReactToVisit(Player player) {
-            // if not owned -> buy street else -> owned by other player? -> pay rent
-            // print where you arrived + colors
             Console.ForegroundColor = this.Color;
             Console.WriteLine($"You({player}: €{player.Money}) have arrived at {this.Name}");
             if(!this.Owned) {
@@ -98,11 +96,6 @@ namespace MiniMonopoly
                 player.Money -= transactionAmount;
                 this.Owner.Money += transactionAmount;
                 Console.WriteLine($"You({player.Name}) paid rent to {this.Owner.Name} and now have €{player.Money}");
-            }
-            //test ownership streets
-            foreach(var property in player.OwnedProperties) {
-                Console.WriteLine(player.OwnedProperties.Count);
-                    Console.WriteLine(property.Name);
             }
             Console.ResetColor();
 
