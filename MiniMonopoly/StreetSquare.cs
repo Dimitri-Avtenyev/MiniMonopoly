@@ -9,7 +9,7 @@ namespace MiniMonopoly
         private int rent;
         public int Rent {
             get {
-                return this.rent;
+                return this.rent*TotalHouses;
             } set {
                 if(value >= 0) {
                     this.rent = value;
@@ -40,6 +40,22 @@ namespace MiniMonopoly
                 return this.color;
             } set {
                 this.color = value;
+            }
+        }
+        private int houseCost = 200;
+        public int HouseCost {
+            get {
+                return this.houseCost;
+            } private set {
+                this.houseCost = value;
+            }
+        }
+        private int totalHouses = 1;
+        public int TotalHouses {
+            get {
+                return this.totalHouses;
+            } private set {
+                this.totalHouses = value;
             }
         }
         private static List<StreetSquare> streetsquares = new List<StreetSquare>();
@@ -84,17 +100,19 @@ namespace MiniMonopoly
                     this.Owned = true;
                     this.Owner = player;
                     player.Money -= this.Rent;
-
-                } else {
+                } else if(player.Money < this.Rent) {
                     Console.WriteLine($"You have €{player.Money} left but this street costs €{this.Rent} to buy");
                 }
             } else if((this.Owned && player.Equals(this.Owner))){ //build houses
                 Console.WriteLine("You are the owner of this street");
-                // foreach(var street in player.OwnedProperties) {
-                //     if(street.Color == this.Color) {
-                        
-                //     }
-                // }
+                if(CheckAllOwnedStreets(player, this) == true) {
+                    Console.WriteLine("You also own all the streets of the same color, would you like to build a house? (yes/no)");
+                    string userInput = Console.ReadLine();
+                    if(userInput.ToLower().Trim() == "yes") {
+                        player.Money -= HouseCost;
+                        this.totalHouses++;
+                    }
+                }
 
             } else {
                 Console.WriteLine($"{this.Name} is owned by {this.Owner}, you must pay that player €{this.Rent}!");
@@ -108,6 +126,19 @@ namespace MiniMonopoly
         }
         public override void ReactToTraversal(Player player) {
             //Passing by streets -> do nothing
+        }
+        private static bool CheckAllOwnedStreets(Player player, StreetSquare streetSquare) {
+            byte counterStreets = 0;
+            bool ownedAll = false;
+            foreach(var street in StreetsquaresByColor[streetSquare.Color]) {
+                if(street.Equals(streetSquare)) {
+                    counterStreets++;
+                }
+            }
+            if(counterStreets == StreetsquaresByColor[streetSquare.Color].Count) {
+                ownedAll = true;
+            }
+            return ownedAll;
         }
     }
 }
